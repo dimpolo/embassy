@@ -8,12 +8,9 @@
 //! [executor wrappers](crate::Executor) and the [`embassy_executor::task`](embassy_executor_macros::task) macro, which are fully safe.
 
 #[cfg_attr(target_has_atomic = "ptr", path = "run_queue_atomics.rs")]
-#[cfg_attr(not(target_has_atomic = "ptr"), path = "run_queue_critical_section.rs")]
 mod run_queue;
 
 #[cfg_attr(all(cortex_m, target_has_atomic = "8"), path = "state_atomics_arm.rs")]
-#[cfg_attr(all(not(cortex_m), target_has_atomic = "8"), path = "state_atomics.rs")]
-#[cfg_attr(not(target_has_atomic = "8"), path = "state_critical_section.rs")]
 mod state;
 
 pub mod timer_queue;
@@ -34,7 +31,7 @@ use core::task::{Context, Poll};
 use self::run_queue::{RunQueue, RunQueueItem};
 use self::state::State;
 use self::util::{SyncUnsafeCell, UninitCell};
-pub use self::waker::task_from_waker;
+pub use self::waker::{task_from_waker, VTABLE};
 use super::SpawnToken;
 
 /// Raw task header for use in task pointers.
