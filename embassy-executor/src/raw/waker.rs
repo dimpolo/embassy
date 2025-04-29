@@ -2,7 +2,8 @@ use core::task::{RawWaker, RawWakerVTable, Waker};
 
 use super::{wake_task, TaskHeader, TaskRef};
 
-static VTABLE: RawWakerVTable = RawWakerVTable::new(clone, wake, wake, drop);
+/// VTABLE for wakers created by the Embassy executor.
+pub static VTABLE: RawWakerVTable = RawWakerVTable::new(clone, wake, wake, drop);
 
 unsafe fn clone(p: *const ()) -> RawWaker {
     RawWaker::new(p, &VTABLE)
