@@ -67,12 +67,14 @@ impl<T: Instance> SealedAdcChannel<T> for Vcore {
     }
 }
 
+#[derive(Copy, Clone)]
 pub enum DacChannel {
     OUT1,
     OUT2,
 }
 
 /// Number of samples used for averaging.
+#[derive(Copy, Clone)]
 pub enum Averaging {
     Disabled,
     Samples2,
@@ -178,7 +180,7 @@ pub struct Adc4<'d, T: Instance> {
     adc: crate::PeripheralRef<'d, T>,
 }
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub enum Adc4Error {
     InvalidSequence,
     DMAError,
